@@ -50,5 +50,32 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 1rem;
+    line-height: 140%;
+  }
+
+  :focus {
+    outline: transparent;
+    box-shadow: 0 0 0 2px var(--purple-500);
+  }
+
+  ::selection {
+    background-color: var(--blue-500);
   }
   
+  button, [role="button"] {
+    cursor: pointer;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 1em;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--gray-500);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--blue-500);
+    border-radius: 15px;
+    height: 2px;
+  }
