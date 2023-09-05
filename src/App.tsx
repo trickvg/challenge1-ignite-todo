@@ -48,7 +48,7 @@ export function App() {
   const { tasks, addNewTask, removeTask, toggleStateCompleteTask } = useTasks();
 
   return (
-    <div className={styles.app}>
+    <main className={styles.app}>
       <Header />
       <NewTask onCreateNewTask={addNewTask} />
       <Tasks
@@ -56,6 +56,6 @@ export function App() {
         onRemoveTask={removeTask}
         tasks={tasks}
       />
-    </div>
+    </main>
   );
 }
