@@ -1,16 +1,18 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
-
 import { PlusCircle } from "phosphor-react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import styles from "./NewTask.module.css";
 
 interface NewTaskProps {
   onCreateNewTask: (title: string) => void;
 }
 
+const PLUS_CIRCLE_ICON_SIZE = 20;
+const placeholderText = "Adicione uma nova tarefa";
+
 export function NewTask({ onCreateNewTask }: NewTaskProps) {
   const [newTaskText, setNewTaskText] = useState("");
 
-  function handleCrateNewTask(event: FormEvent) {
+  function handleCreateNewTask(event: FormEvent) {
     event.preventDefault();
     onCreateNewTask(newTaskText);
     setNewTaskText("");
@@ -28,17 +30,22 @@ export function NewTask({ onCreateNewTask }: NewTaskProps) {
   const isNewTaskEmpty = newTaskText.length === 0;
 
   return (
-    <form className={styles.addTaskContainer} onSubmit={handleCrateNewTask}>
+    <form className={styles.addTaskContainer} onSubmit={handleCreateNewTask}>
       <input
         className={styles.input}
         type="text"
-        placeholder="Adicione uma nova tarefa"
+        placeholder={placeholderText}
         value={newTaskText}
         onChange={handleNewTaskChange}
         onInvalid={handleNewTaskInvalid}
       />
-      <button type="submit" className={styles.button} disabled={isNewTaskEmpty}>
-        Criar <PlusCircle size={20} />
+      <button
+        type="submit"
+        aria-label="Criar nova tarefa"
+        className={styles.button}
+        disabled={isNewTaskEmpty}
+      >
+        Criar <PlusCircle size={PLUS_CIRCLE_ICON_SIZE} />
       </button>
     </form>
   );
