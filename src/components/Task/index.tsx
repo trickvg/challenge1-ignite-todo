@@ -13,6 +13,9 @@ interface TasksProps {
   onRemoveTask: (taskId: string) => void;
 }
 
+const TRASH_ICON_SIZE = 24;
+const CLIPBOARD_ICON_SIZE = 56;
+
 export function Tasks({ tasks, onCompleteTask, onRemoveTask }: TasksProps) {
   function handleCheckChange(taskId: string) {
     onCompleteTask(taskId);
@@ -25,19 +28,19 @@ export function Tasks({ tasks, onCompleteTask, onRemoveTask }: TasksProps) {
   const totalTasksCreated = tasks.length;
   const totalTasksDone = tasks.reduce(
     (acc, cur) => acc + Number(cur.isCompleted),
-    0
+    0,
   );
 
   return (
-    <div className={styles.taskContainer}>
-      <div className={styles.taskInfoContainer}>
+    <section className={styles.taskContainer}>
+      <header className={styles.taskInfoContainer}>
         <p className={styles.infoTextCreated}>
-          Tarefas criadas{" "}
+          Tarefas criadas
           <span className={styles.taskInfoCounter}>{totalTasksCreated}</span>
         </p>
         <p className={styles.infoTextDone}>
-          Concluídas{" "}
-          <span className={styles.taskInfoCounter}>
+          Concluídas
+          <span aria-live="polite" className={styles.taskInfoCounter}>
             <>
               {totalTasksCreated === 0
                 ? totalTasksCreated
@@ -45,26 +48,27 @@ export function Tasks({ tasks, onCompleteTask, onRemoveTask }: TasksProps) {
             </>
           </span>
         </p>
-      </div>
+      </header>
       {tasks.length === 0 ? (
-        <div className={styles.taskListEmpty}>
-          <ClipboardText size={56} />
+        <main className={styles.taskListEmpty}>
+          <ClipboardText size={CLIPBOARD_ICON_SIZE} />
           <div>
             <p className={styles.boldText}>
               Você ainda não tem tarefas cadastradas
             </p>
             <p>Crie tarefas e organize seus itens a fazer</p>
           </div>
-        </div>
+        </main>
       ) : (
-        <div className={styles.taskListContainer}>
+        <main className={styles.taskListContainer}>
           {tasks.map((task) => {
             return (
-              <div key={task.id} className={styles.taskItemContainer}>
+              <article key={task.id} className={styles.taskItemContainer}>
                 <input
                   className={styles.checkbox}
                   type="checkbox"
                   checked={task.isCompleted}
+                  aria-checked={task.isCompleted}
                   onChange={() => handleCheckChange(task.id)}
                 />
                 <p
@@ -76,17 +80,25 @@ export function Tasks({ tasks, onCompleteTask, onRemoveTask }: TasksProps) {
                 >
                   {task.title}
                 </p>
-                <Trash
+                {/* <Trash
                   role="button"
-                  className={styles.removeIcon}
-                  size={24}
+                  aria-label="Remover tarefa"
+                  className={styles.removeButton}
+                  size={TRASH_ICON_SIZE}
                   onClick={() => handleRemoveTask(task.id)}
-                />
-              </div>
+                /> */}
+                <button
+                  aria-label="Remover tarefa"
+                  className={styles.removeButton}
+                  onClick={() => handleRemoveTask(task.id)}
+                >
+                  <Trash size={TRASH_ICON_SIZE} />
+                </button>
+              </article>
             );
           })}
-        </div>
+        </main>
       )}
-    </div>
+    </section>
   );
 }
